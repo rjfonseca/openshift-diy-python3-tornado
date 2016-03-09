@@ -1,7 +1,7 @@
-This is my private quick-start diy repo. 
+This is my private quick-start diy repo. This will create a gear with:
 
-* Python 3.4.3
-* Tornado 4.1
+* Latest Python availalbe
+* Latest Tornado
 
 
 The OpenShift `diy` cartridge documentation can be found at:

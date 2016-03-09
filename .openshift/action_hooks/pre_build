@@ -1,21 +1,19 @@
 #!/bin/bash
-# This is a simple script and will be executed on your CI system if 
+# This is a simple script and will be executed on your CI system if
 # available.  Otherwise it will execute while your application is stopped
 # before the build step.  This script gets executed directly, so it
 # could be python, php, ruby, etc.
 
-PYTHON_VERSION=3.4.3
+PYTHON_VERSION=`curl https://www.python.org/ftp/python/ --silent | grep -Pioe "(?<=href=\")[0-9][0-9.]+(?=/\")" | tail -1`
 
 if [ ! -d ${OPENSHIFT_DATA_DIR}bin ]; then
 
   if [ "${OPENSHIFT_DATA_DIR}bin/python -V" != "Python $PYTHON_VERSION" ]; then
     echo "install python-$PYTHON_VERSION..."
     cd ${OPENSHIFT_TMP_DIR}
-    wget https://www.python.org/ftp/python/$PYTHON_VERSION/Python-$PYTHON_VERSION.tar.xz
-    tar xf Python-$PYTHON_VERSION.tar.xz
-    cd Python-$PYTHON_VERSION
-    ./configure --prefix=${OPENSHIFT_DATA_DIR}
-    make install
+    curl --silent https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tgz | tar xz
+    cd Python-${PYTHON_VERSION}
+    ./configure --prefix=${OPENSHIFT_DATA_DIR} && make && make install
   fi
 
   # set path
@@ -24,7 +22,7 @@ if [ ! -d ${OPENSHIFT_DATA_DIR}bin ]; then
   echo "install setuptools and pip..."
   cd $OPENSHIFT_TMP_DIR
   wget https://bootstrap.pypa.io/get-pip.py
-  python3.4 get-pip.py
+  python3 get-pip.py
   rm -rf get-pip.py
 
 fi
