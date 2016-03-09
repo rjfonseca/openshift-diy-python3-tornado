@@ -8,10 +8,10 @@ PYTHON_VERSION=`curl https://www.python.org/ftp/python/ --silent | grep -Pioe "(
 
 if [ ! -d ${OPENSHIFT_DATA_DIR}bin ]; then
 
-  if [ "${OPENSHIFT_DATA_DIR}bin/python -V" != "Python $PYTHON_VERSION" ]; then
-    echo "install python-$PYTHON_VERSION..."
+  if [ "${OPENSHIFT_DATA_DIR}bin/python -V" != "Python ${PYTHON_VERSION}" ]; then
+    echo "install python-${PYTHON_VERSION}..."
     cd ${OPENSHIFT_TMP_DIR}
-    curl --silent https://www.python.org/ftp/python/${PYVERSION}/Python-${PYVERSION}.tgz | tar xz
+    curl --silent https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tgz | tar xz
     cd Python-${PYTHON_VERSION}
     ./configure --prefix=${OPENSHIFT_DATA_DIR} && make && make install
   fi
